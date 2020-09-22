@@ -101,7 +101,6 @@ Now Create **Worker.py** with the below Code
 ```python
 from ujq import ujq
 import json
-import asyncio
 
 def callback (message,complete):
     print(json.dumps(message))
