@@ -1,1 +1,3 @@
-__pycache__/
+ujq/__pycache__/
+ujq.egg-info/
+.gitignore
