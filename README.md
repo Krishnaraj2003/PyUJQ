@@ -51,7 +51,7 @@ In case of error, the false tag can be set as true... Invoking the complete call
 ## On completion of Job
 
 ```python
-result = await UJQ.onCompleted(id)
+result = UJQ.onCompleted(id)
 print(result)
 ```
 
@@ -62,7 +62,7 @@ The above code will complete the job.
 A new method is created for UJQ version 2 and above to run which combines both createJob and onCompleted
 
 ```python
-result = await UJQ.runJob('Test_100',{"test":"test45y76475"})
+result = UJQ.runJob('Test_100',{"test":"test45y76475"})
 print(result)
 ```
 
