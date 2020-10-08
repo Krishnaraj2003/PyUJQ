@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup, Extension
 
 
 def readme():
@@ -20,6 +20,7 @@ setup(
     author_email='krishnaraj2003@gmail.com',      # Type in your E-Mail
     # Provide either the link to your github or to your website
     url='https://github.com/Krishnaraj2003/PyUJQ',
+    download_url = 'https://github.com/Krishnaraj2003/PyUJQ/archive/v2.0.0.tar.gz',
     # I explain this later on
     keywords=['UJQ', 'Redis', 'ujq', 'micro services', 'microservice',
               'redis queue', 'queue management'],   # Keywords that define your package best

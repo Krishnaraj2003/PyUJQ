@@ -7,12 +7,9 @@ import datetime
 import hashlib
 import random
 
-
 class redisLib:
-    def __init__(self, host="127.0.0.1", port=6379,  db=0):
-        self._host = host
-        self._port = port
-        self._db = db
+    def __init__(self, **args):
+        self._args = args
         self._redisClient = None
         self._subscriberClient = None
         self._queuesUnderConsideration = {}
@@ -21,19 +18,22 @@ class redisLib:
         self._queueNamePreString = "$#ujq_queue"
         self._finishedQueue = "$#ujq_finished_queue"
         self._p = None
+        self._errorCallback = lambda x: None
+        self._errorCallback = None
         self._lock = Lock()
+        self._exit = None
 
     def _connectRedis(self):
         try:
-            self._redisClient = redis.Redis(
-                host=self._host, port=self._port, db=self._db)
-            self._subscriberClient = redis.Redis(
-                host=self._host, port=self._port, db=self._db)
+            self._redisClient = redis.Redis(**self._args)
+            self._subscriberClient = redis.Redis(**self._args)
             self._eventEmitter()
             return True
         except Exception as e:
-            err = str(e)
-            raise Exception("Error Creating Redis Queue : "+err)
+            if self._errorCallback:
+                self._errorCallback(str(e))
+            else:
+                raise Exception("Error Creating Redis Queue : "+str(e))
 
     def _eventEmitter(self):
         try:
@@ -53,7 +53,8 @@ class redisLib:
                     self._newJobThread(
                         type=str(new_message["channel"], 'utf-8'), queue=str(new_message["data"], 'utf-8'))
         except Exception as e:
-            raise Exception(e)
+            self._exit = str(e)
+            #raise Exception(e)
 
     def _newJobThread(self, type, queue):
         try:
@@ -97,9 +98,10 @@ class redisLib:
 
     def _onCreatedJob(self, jobName, callback):
         try:
-            if (self._keyExist(self._queuesUnderConsideration, jobName)):
-                raise Exception(
-                    'Cannot Call on Created Twice for same Job name')
+            #Commenting Out this code to allow Job Creation Twice
+            #if (self._keyExist(self._queuesUnderConsideration, jobName)):
+            #    raise Exception(
+            #        'Cannot Call on Created Twice for same Job name')
             self._queuesUnderConsideration[jobName] = callback
             self._newJobThread(self._subscribeQueue, jobName)
         except Exception as e:
