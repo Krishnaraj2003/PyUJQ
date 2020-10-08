@@ -108,11 +108,11 @@ def callback (message,complete):
 
 UJQ.onCreated('Test_100',callback)
 ```
+Run both the files and **Enjoy** :B
 
-# New onError method
+## New onError method
 This method will handle errors during disconnect of redis in between
 
 ```python
 UJQ.onError(lambda x:run())
 ```
-Run both the files and **Enjoy** :B
