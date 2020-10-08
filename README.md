@@ -1,5 +1,5 @@
 # UJQ
-Universal Job Queue or UJQ in short is a Redis based Simple MultiPlatform Job management library build. This Library is light weight and build for working with microservices. Currently we have Node and Python implementation of Library. C# and Java are in pipeline. 
+Universal Job Queue or UJQ in short is a Redis based Simple MultiPlatform Job management library. This Library is light weight and build for working with microservices. Currently we have Node and Python implementation of Library. C# and Java are in pipeline. 
 ## Benifits
 1. Jobs can be created and processed by different application or services
 2. Auto trigger when job is created
@@ -109,4 +109,10 @@ def callback (message,complete):
 UJQ.onCreated('Test_100',callback)
 ```
 
+# New onError method
+This method will handle errors during disconnect of redis in between
+
+```python
+UJQ.onError(lambda x:run())
+```
 Run both the files and **Enjoy** :B
